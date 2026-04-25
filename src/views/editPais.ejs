@@ -1,0 +1,124 @@
+<body>
+    <form id="formPais" action="./editar?_method=PUT" method="post">
+        <label for="nombreComunPais">Nombre Común:</label>
+        <% if (valoresRetornados.nombreComun) { %>
+            <input type="text" name="nombreComunPais" id="nombreComunPais" value="<%= valoresRetornados.nombreComun %>">
+        <% } else if (valoresRetornados.nombreComunPais) { %>
+            <input type="text" name="nombreComunPais" id="nombreComunPais" value="<%= valoresRetornados.nombreComunPais %>">
+        <% } else { %>
+            <input type="text" name="nombreComunPais" id="nombreComunPais" value="">
+        <% } %>
+        <p class="errorMesage">
+            <%= camposErroneos && camposErroneos.includes("nombreComunPais") ? mensajesDeError[camposErroneos.indexOf("nombreComunPais")] : '' %>
+        </p> 
+
+        <label for="nombreOficialPais">Nombre Oficial:</label>
+        <% if (valoresRetornados.nombreOficial) { %>
+            <input type="text" name="nombreOficialPais" id="nombreOficialPais" value="<%= valoresRetornados.nombreOficial %>" required>
+        <% } else if (valoresRetornados.nombreOficialPais) { %>
+            <input type="text" name="nombreOficialPais" id="nombreOficialPais" value="<%= valoresRetornados.nombreOficialPais %>" required>
+        <% } else { %>
+            <input type="text" name="nombreOficialPais" id="nombreOficialPais" value="" required>
+        <% } %> 
+        <p class="errorMesage">
+            <%= camposErroneos && camposErroneos.includes("nombreOficialPais") ? mensajesDeError[camposErroneos.indexOf("nombreOficialPais")] : '' %>
+        </p>
+        
+        <label for="capitalPais">Capital</label>
+        <% if (valoresRetornados.capital) { %>
+            <input type="text" name="capitalPais" id="capitalPais" value="<%= valoresRetornados.capital %>">
+        <% } else if (valoresRetornados.capitalPais) { %>
+            <input type="text" name="capitalPais" id="capitalPais" value="<%= valoresRetornados.capitalPais %>">
+        <% } else { %>
+            <input type="text" name="capitalPais" id="capitalPais" value="">
+        <% } %>
+        <p class="errorMesage">
+            <%= camposErroneos && camposErroneos.includes("capitalPais") ? mensajesDeError[camposErroneos.indexOf("capitalPais")] : '' %>
+        </p>
+
+        <div id="paisesFronteraContainer" class="w-full">
+            <label for="idPaisFrontera">Países Frontera: <span>(3 letras mayúsculas)</span></label>
+            <input type="text" name="paisFrontera" id="idPaisFrontera" placeholder="ARG" minlength="3" maxlength="3">
+            <button type="button" id="btnAgregarPaisFrontera">Agregar país</button>
+            <p class="errorMesage">
+                <%= camposErroneos && camposErroneos.includes("paisesFrontera") ? mensajesDeError[camposErroneos.indexOf("paisesFrontera")] : '' %>
+            </p>
+            <p class="errorMesage"> <!-- some verifica si hay un elemento con el substring -->
+                <%= camposErroneos && camposErroneos.some(campo => campo.includes("paisesFrontera[")) ? mensajesDeError[camposErroneos.findIndex(campo => campo.includes("paisesFrontera["))] : '' %>
+            </p>
+
+            <% if (valoresRetornados.fronteras) { %>
+                <% valoresRetornados.fronteras.forEach(frontera => { %>
+                    <div class="inputAndBtnContainer">
+                        <input type="text" name="paisesFrontera[]" class="inputVector" 
+                        required minlength="3" maxlength="3" value="<%= frontera %>"> 
+                        <button type="button" class="btnQuitar">Quitar</button>
+                    </div>
+                <% }); %>
+            <% } else if (valoresRetornados.paisesFrontera) { %>
+                <% valoresRetornados.paisesFrontera.forEach(frontera => { %>
+                    <div class="inputAndBtnContainer">
+                        <input type="text" name="paisesFrontera[]" class="inputVector" 
+                        required minlength="3" maxlength="3" value="<%= frontera %>"> 
+                        <button type="button" class="btnQuitar">Quitar</button>
+                    </div>
+                <% }); %>
+            <% } %>
+            
+        </div>
+
+        <label for="areaPais">Área</label>
+        <% if (valoresRetornados.area) { %>
+            <input type="number" name="areaPais" id="areaPais" value="<%= valoresRetornados.area %>">
+        <% } else if (valoresRetornados.areaPais) { %>
+            <input type="number" name="areaPais" id="areaPais" value="<%= valoresRetornados.areaPais %>">
+        <% } else { %>
+            <input type="number" name="areaPais" id="areaPais" value="">
+        <% } %>
+        <p class="errorMesage">
+            <%= camposErroneos && camposErroneos.includes("areaPais") ? mensajesDeError[camposErroneos.indexOf("areaPais")] : '' %>
+        </p>
+
+        <label for="poblacionPais">Población</label>
+        <% if (valoresRetornados.poblacion) { %>
+            <input type="number" name="poblacionPais" id="poblacionPais" value="<%= valoresRetornados.poblacion %>">
+        <% } else if (valoresRetornados.poblacionPais) { %>
+            <input type="number" name="poblacionPais" id="poblacionPais" value="<%= valoresRetornados.poblacionPais %>">
+        <% } else { %>
+            <input type="number" name="poblacionPais" id="poblacionPais" value="">
+        <% } %>
+        <p class="errorMesage">
+            <%= camposErroneos && camposErroneos.includes("poblacionPais") ? mensajesDeError[camposErroneos.indexOf("poblacionPais")] : '' %>
+        </p>
+        
+        <div id="timezonesContainer" class="w-full">
+            <label for="idTimezone">Timezones</label>
+            <input type="text" name="timezone" id="idTimezone" placeholder="UTC-05:00" 
+            pattern="^UTC-\d{2}:\d{2}$" title="El formato requerido: UTC-HH:MM (ej. UTC-05:00)" maxlength="9">
+            <button type="button" id="btnAgregarTimezone">Agregar Timezone</button>
+
+            <% valoresRetornados.timezones.forEach(timezone => { %>
+                <div class="inputAndBtnContainer">
+                    <input type="text" name="timezones[]" class="inputVector" 
+                    required maxlength="9" value="<%= timezone %>"> 
+                    <button type="button" class="btnQuitar">Quitar</button>
+                </div>
+            <% }); %>
+        </div>
+        <input type="submit" value="Guardar">
+    </form>
+    <script src="/js/formFunctions.mjs"></script>
+    <script>
+        //dar funcionalidad a los botones quitar que aparecen de base
+        const botonesQuitar = document.querySelectorAll('.btnQuitar');
+        //console.log(botonesQuitar);
+        botonesQuitar.forEach(btnQuitar => {
+            btnQuitar.addEventListener('click', ()=>{
+                //console.log("BTN quitar: ", btnQuitar);
+                const padre = btnQuitar.parentElement;
+                //console.log(padre);
+                padre.remove();
+            });
+        });
+    </script>
+</body>

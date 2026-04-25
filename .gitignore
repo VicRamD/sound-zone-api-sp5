@@ -1,0 +1,4 @@
+node_modules/
+src/services/apiSpoontacular.txt
+.env
+.vscode

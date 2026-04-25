@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo != '' ? titulo : "Hispanoamérica" %></title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
+    <!-- Header -->
+    <%- include('partials/header') %>
+    <!-- Contenido dinámico -->
+     
+    <main>
+        <%- body %>
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+    <!-- <script type="module" src="/js/chatbot.mjs"></script> -->
+</body>
+</html>

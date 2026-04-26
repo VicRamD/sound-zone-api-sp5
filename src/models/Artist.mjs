@@ -15,6 +15,7 @@ const artistSchema = new mongoose.Schema({
         }},
     isActive: Boolean,
     imageUrl: String,
+    class: String,
     createdAt: {type: Date, default: Date.now}
 });
 

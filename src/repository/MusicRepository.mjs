@@ -1,11 +1,17 @@
-//Importar el modelo de superheroes
-import Pais from '../models/Pais.mjs'; 
+//Importar los modelos
 import Artist from '../models/Artist.mjs';
+import Genre from '../models/Genre.mjs';
+import Song from '../models/Song.mjs';
+import Album from '../models/Album.mjs';
 //Importar abstracción de los metodos CRUD
 import IRepository from './IRepository.mjs';
 
 //Clase MusicRepository que hereda de IRepository
 class MusicRepository extends IRepository {
+
+    /**
+     * Artists
+     */
     async obtenerArtistaPorId(id){
         //devuelve un artista con el id enviado
         return await Artist.findById(id);
@@ -59,6 +65,20 @@ class MusicRepository extends IRepository {
     async eliminarArtistaPorID(id){
         console.log("En repository - eliminarArtistaPorID");
         return await Artist.findByIdAndDelete(id);
+    }
+
+    /**
+     * Genres
+     */
+
+     async obtenerGeneroPorId(id){
+        //devuelve un artista con el id enviado
+        return await Genre.findById(id);
+    } 
+
+    async obtenerTodosLosArtistas(){
+        console.log("En repository - obtenerTodosLosArtistas");
+        return await Artist.find({clase: "ARTIST"}); 
     }
 }
 

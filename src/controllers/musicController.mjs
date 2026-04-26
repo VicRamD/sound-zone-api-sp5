@@ -1,4 +1,6 @@
-import {obtenerArtistaPorId, crearNuevoArtista, actualizarArtista, eliminarArtistaPorID, obtenerTodosLosArtistas} from '../services/musicService.mjs';
+import {obtenerArtistaPorId, crearNuevoArtista, actualizarArtista, eliminarArtistaPorID, obtenerTodosLosArtistas,
+    consumirApiExternaGeneros, registrarGenerosAPI
+} from '../services/musicService.mjs';
 import { renderizarArtistas} from '../views/responsiveView.mjs';
 
 
@@ -10,6 +12,9 @@ export const renderizarAbout = (req, res) => {
     res.render('about', {titulo: "Acerca De"});
 }
 
+/**
+* Artists
+*/
 
 export const obtenerTodosLosArtistasController = async (req, res) => {
     console.log("en controlador - obtenerTodosLosArtistasController");
@@ -138,3 +143,31 @@ export const eliminarArtistaPorIDController = async (req, res) => {
 }
 
 /*--------------------------*/
+
+/**
+* Genres
+*/
+
+export const consumirApiExternaGenerosController = async (req, res) => {
+    try {
+        console.log("En controladores - consumirApiExternaGenerosController");
+        const listaDeGenerosMusicales = await consumirApiExternaGeneros();
+        const listaFormateada = listaDeGenerosMusicales.map(genero => {
+            return {
+                name: genero.name,
+                class: "GENRE",
+            }
+        })
+
+        //registrar en la BD
+        const recetasRegistradas = await registrarGenerosAPI(listaFormateada);
+        res.status(200).json({
+            operation: "create",
+        });
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al consumir API',
+            error: error.message
+        });
+    }
+}

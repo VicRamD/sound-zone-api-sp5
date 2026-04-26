@@ -8,5 +8,5 @@ const genreSchema = new mongoose.Schema({
 });
 
 //Modelo pais                Nombre   esquema    colección
-const genre = mongoose.model('Genre', songSchema, 'Grupo-20');
+const genre = mongoose.model('Genre', genreSchema, 'Grupo-20');
 export default genre;

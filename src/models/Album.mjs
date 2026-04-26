@@ -15,5 +15,5 @@ const albumSchema = new mongoose.Schema({
 });
 
 //Modelo pais                Nombre   esquema    colección
-const album = mongoose.model('Album', songSchema, 'Grupo-20');
+const album = mongoose.model('Album', albumSchema, 'Grupo-20');
 export default album;

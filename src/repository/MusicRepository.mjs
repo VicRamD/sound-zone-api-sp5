@@ -5,6 +5,7 @@ import Song from '../models/Song.mjs';
 import Album from '../models/Album.mjs';
 //Importar abstracción de los metodos CRUD
 import IRepository from './IRepository.mjs';
+import genre from '../models/Genre.mjs';
 
 //Clase MusicRepository que hereda de IRepository
 class MusicRepository extends IRepository {
@@ -19,7 +20,7 @@ class MusicRepository extends IRepository {
 
     async obtenerTodosLosArtistas(){
         console.log("En repository - obtenerTodosLosArtistas");
-        return await Artist.find({clase: "ARTIST"}); 
+        return await Artist.find({class: "ARTIST"}); 
     }
 
     /*
@@ -76,9 +77,39 @@ class MusicRepository extends IRepository {
         return await Genre.findById(id);
     } 
 
-    async obtenerTodosLosArtistas(){
-        console.log("En repository - obtenerTodosLosArtistas");
-        return await Artist.find({clase: "ARTIST"}); 
+    async obtenerTodosLosGeneros(){
+        console.log("En repository - obtenerTodosLosGeneros");
+        return await Genre.find({class: "GENRE"}); 
+    }
+
+    async registrarGenerosAPI(listaDeGeneros){
+        console.log("En repository - registrarGenerosAPI");
+        const artistas = await Genre.create(listaDeGeneros);
+        return artistas;
+    }
+
+    async crearNuevoGenero(genreData) {
+        console.log("En repository - crearNuevoGenero");
+        return await Genre.create(genreData);
+    }
+
+    async actualizarGenero(id, genreData) {
+        console.log("En repository - actualizarGenero");
+        //se guarda el resultado para saber si se actualizó algún registro
+        const resultado = await Genre.updateOne({_id: id}, {
+            $set: genreData
+        });
+
+        if(resultado.matchedCount === 0) {
+            console.log("No se encontró un genero con el id enviado");
+        } 
+        //recupera el artista actualizado
+        return await Genre.findById(id);
+    }
+
+    async eliminarGeneroPorID(id){
+        console.log("En repository - eliminarGeneroPorID");
+        return await Genre.findByIdAndDelete(id);
     }
 }
 

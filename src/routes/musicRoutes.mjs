@@ -1,6 +1,7 @@
 import express from 'express';
 
-import {obtenerTodosLosArtistasController, crearNuevoArtistaController, actualizarArtistaController, eliminarArtistaPorIDController 
+import {obtenerTodosLosArtistasController, crearNuevoArtistaController, actualizarArtistaController, eliminarArtistaPorIDController,
+    consumirApiExternaGenerosController 
 } from '../controllers/musicController.mjs';
 
 import {artistValidation} from '../routes/validationRules.mjs';
@@ -25,8 +26,8 @@ router.put('/artists/:id/editar', uploadArtist, artistValidation, handleValidati
 //eliminar artista
 router.delete('/artists/:id/', eliminarArtistaPorIDController);
 
-//Consumir la API
-//router.get('/externa/datos', consumirApiExternaDeRecetasController);
+//Consumir APIs
+router.get('/externa/genre', consumirApiExternaGenerosController);
 
 
 

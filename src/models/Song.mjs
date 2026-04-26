@@ -7,6 +7,7 @@ const songSchema = new mongoose.Schema({
     lyrics: String,
     artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artist' }],
     language: {type: String, maxlength: [30, 'El lenguaje no puede exceder 30 caracteres']},
+    releaseYear: {type: Date},
     coverUrl: String,
     class: String,
     createdAt: {type: Date, default: Date.now}

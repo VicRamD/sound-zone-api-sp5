@@ -82,22 +82,22 @@ class MusicRepository extends IRepository {
         return await Genre.find({class: "GENRE"}); 
     }
 
-    async registrarGenerosAPI(listaDeGeneros){
+    async registrarGenerosAPI(list){
         console.log("En repository - registrarGenerosAPI");
-        const artistas = await Genre.create(listaDeGeneros);
-        return artistas;
+        const lista = await Genre.create(list);
+        return lista;
     }
 
-    async crearNuevoGenero(genreData) {
+    async crearNuevoGenero(data) {
         console.log("En repository - crearNuevoGenero");
-        return await Genre.create(genreData);
+        return await Genre.create(data);
     }
 
-    async actualizarGenero(id, genreData) {
+    async actualizarGenero(id, data) {
         console.log("En repository - actualizarGenero");
         //se guarda el resultado para saber si se actualizó algún registro
         const resultado = await Genre.updateOne({_id: id}, {
-            $set: genreData
+            $set: data
         });
 
         if(resultado.matchedCount === 0) {
@@ -110,6 +110,93 @@ class MusicRepository extends IRepository {
     async eliminarGeneroPorID(id){
         console.log("En repository - eliminarGeneroPorID");
         return await Genre.findByIdAndDelete(id);
+    }
+
+    /**
+     * Song
+     */
+
+     async obtenerSongPorId(id){
+        //devuelve una canción con el id enviado
+        return await Song.findById(id).populate('artists', 'name');
+    } 
+
+    async obtenerTodasLasCanciones(){
+        console.log("En repository - obtenerTodosLasCanciones");
+        return await Song.find({class: "SONG"}); 
+    }
+
+    async registrarCancionesAPI(list){
+        console.log("En repository - registrarCancionesAPI");
+        const lista = await Song.create(list);
+        return lista;
+    }
+
+    async crearNuevaCancion(data) {
+        console.log("En repository - crearNuevaCancion");
+        return await Song.create(data);
+    }
+
+    async actualizarCancion(id, data) {
+        console.log("En repository - actualizarCancion");
+        //se guarda el resultado para saber si se actualizó algún registro
+        const resultado = await Song.updateOne({_id: id}, {
+            $set: data
+        });
+
+        if(resultado.matchedCount === 0) {
+            console.log("No se encontró un genero con el id enviado");
+        } 
+        //recupera el artista actualizado
+        return await Song.findById(id);
+    }
+
+    async eliminarCancionPorID(id){
+        console.log("En repository - eliminarCancionPorID");
+        return await Song.findByIdAndDelete(id);
+    }
+
+    /**
+     * Album
+     */
+
+     async obtenerAlbumPorId(id){
+        //devuelve un album con el id enviado
+        return await Album.findById(id).populate('songs', 'title').populate('artists', 'name');;
+    } 
+
+    async obtenerTodosLosAlbumes(){
+        console.log("En repository - obtenerTodosLosAlbumes");
+        return await Album.find({class: "ALBUM"}); 
+    }
+
+    async registrarAlbumesAPI(list){
+        console.log("En repository - registrarAlbumesAPI");
+        const lista = await Album.create(list);
+        return lista;
+    }
+
+    async crearNuevoAlbum(data) {
+        console.log("En repository - crearNuevoAlbum");
+        return await Album.create(data);
+    }
+
+    async actualizarAlbum(id, data) {
+        console.log("En repository - actualizarAlbum");
+        //se guarda el resultado para saber si se actualizó algún registro
+        const resultado = await Album.updateOne({_id: id}, {
+            $set: data
+        });
+
+        if(resultado.matchedCount === 0) {
+            console.log("No se encontró un genero con el id enviado");
+        } 
+        return await Album.findById(id);
+    }
+
+    async eliminarAlbumPorID(id){
+        console.log("En repository - eliminarAlbumPorID");
+        return await Album.findByIdAndDelete(id);
     }
 }
 

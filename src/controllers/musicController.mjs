@@ -1,7 +1,10 @@
 import {obtenerArtistaPorId, crearNuevoArtista, actualizarArtista, eliminarArtistaPorID, obtenerTodosLosArtistas,
-    consumirApiExternaGeneros, registrarGenerosAPI
+    consumirApiExternaGeneros, registrarGenerosAPI, crearNuevoGenero, actualizarGenero, 
+    eliminarGeneroPorID, obtenerGeneroPorId, obtenerTodosLosGeneros,
+    crearNuevaCancion, actualizarCancion, eliminarCancionPorID, obtenerCancionPorId, obtenerTodasLasCanciones,
+    crearNuevoAlbum, actualizarAlbum, eliminarAlbumPorID, obtenerAlbumPorId, obtenerTodosLosAlbumes
 } from '../services/musicService.mjs';
-import { renderizarArtistas} from '../views/responsiveView.mjs';
+import { renderizarArtistas, renderizarAlbumes, renderizarCanciones, renderizarGeneros} from '../views/responsiveView.mjs';
 
 
 export const renderizarLandingPage = (req, res) => {
@@ -41,6 +44,12 @@ export const obtenerTodosLosArtistasController = async (req, res) => {
 export const crearNuevoArtistaController = async (req, res) => {
     console.log("en controlador - crearNuevoArtistaController");
     try {
+
+        // Si se subió imagen, multer la guarda y agrega req.file
+        const imageUrl = req.file 
+            ? `img/artists/${req.file.filename}` 
+            : datos.imageUrl ?? null;
+
         console.log("body", req.body);
         const datos = req.body;
         console.log(datos);
@@ -50,7 +59,7 @@ export const crearNuevoArtistaController = async (req, res) => {
             country: datos.country,
             formedYear: datos.formedYear,
             isActive: datos.isActive,
-            imageUrl: datos.imageUrl,
+            imageUrl,
             class: "ARTIST",
             creator: "RAMIREZ DIAZ VICTOR FRANCISCO"
         };
@@ -81,13 +90,19 @@ export const actualizarArtistaController = async (req, res) => {
 
         //console.log(req.body);
         const datos = req.body;
+
+        // Si se subió una nueva imagen, reemplaza; si no, conserva la actual
+        const imageUrl = req.file 
+            ? `img/artists/${req.file.filename}` 
+            : datos.imageUrl ?? undefined;
+
         const datosArtista = {
             name: datos.name,
             biography: datos.biography,
             country: datos.country,
             formedYear: datos.formedYear,
             isActive: datos.isActive,
-            imageUrl: datos.imageUrl
+            imageUrl
         };
 
 
@@ -148,6 +163,8 @@ export const eliminarArtistaPorIDController = async (req, res) => {
 * Genres
 */
 
+
+
 export const consumirApiExternaGenerosController = async (req, res) => {
     try {
         console.log("En controladores - consumirApiExternaGenerosController");
@@ -171,3 +188,399 @@ export const consumirApiExternaGenerosController = async (req, res) => {
         });
     }
 }
+
+export const obtenerTodosLosGenerosController = async (req, res) => {
+    console.log("en controlador - obtenerTodosLosGenerosController");
+    try {
+        const generos = await obtenerTodosLosGeneros();
+        const generosFormateados = renderizarGeneros(generos);
+
+        res.status(200).json(generosFormateados);
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al obtener los generos',
+            error: error.message
+        });
+    }
+    
+}
+
+
+/**
+ *  Crear nuevo genero
+ */
+export const crearNuevoGeneroController = async (req, res) => {
+    console.log("en controlador - crearNuevoGeneroController");
+    try {
+        console.log("body", req.body);
+        const datos = req.body;
+        console.log(datos);
+        const datosFormateados = {
+            name: datos.name,
+            class: "GENRE",
+            creator: "RAMIREZ DIAZ VICTOR FRANCISCO"
+        };
+        console.log(datosFormateados);
+
+        const created = await crearNuevoGenero(datosFormateados);
+    
+        res.status(200).json(created);
+    } catch(error){
+        res.status(500).send({
+            mensaje: 'Error en la creación de un nuevo genero',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/
+
+/**
+ *  Editar un genero
+ */
+
+
+export const actualizarGeneroController = async (req, res) => {
+    console.log("en controlador - actualizarGeneroController");
+    try {
+        const {id} = req.params;
+
+        //console.log(req.body);
+        const datos = req.body;
+        const datosFormateados = {
+            name: datos.name,
+        };
+
+        const updatedObject = await actualizarGenero(id, datosFormateados);
+
+        if(!updatedObject){
+            return res.status(404).send({mensaje: 'Genero no encontrado'});
+        }  
+
+        res.status(200).json(updatedObject);
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al actualizar un genero',
+            error: error.message
+        });
+    }
+}  
+
+/*--------------------------*/
+
+/**
+ *  Eliminar un genero
+ */
+
+export const eliminarGeneroPorIDController = async (req, res) => {
+    try {
+        const {id} = req.params;
+        console.log("en controlador - eliminarGeneroPorIDController");
+        //console.log(id);
+
+        const deletedObject = await eliminarGeneroPorID(id);
+        //console.log("Artista Eliminado", artistaEliminado);
+
+        if(!deletedObject){
+            return res.status(404).send({mensaje: 'Genero no encontrado'});
+        }  
+
+        res.status(200).json({
+            operation: "delete",
+            eliminated: deletedObject,
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al eliminar un genero',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/
+
+/**
+* Song
+*/
+
+
+export const obtenerTodasLasCancionesController = async (req, res) => {
+    console.log("en controlador - obtenerTodasLasCancionesController");
+    try {
+        const songs = await obtenerTodasLasCanciones();
+        const songsFormateadas = renderizarCanciones(songs);
+
+        res.status(200).json(songsFormateadas);
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al obtener las canciones',
+            error: error.message
+        });
+    }
+    
+}
+
+
+/** Crear nueva canción */
+
+export const crearNuevaCancionController = async (req, res) => {
+    console.log("en controlador - crearNuevaCancionController");
+    try {
+        console.log("body", req.body);
+        const datos = req.body;
+
+        // Si se subió imagen, multer la guarda y agrega req.file
+        const imageUrl = req.file 
+            ? `img/songs/${req.file.filename}` 
+            : datos.imageUrl ?? null;
+
+
+        console.log(datos);
+        const datosFormateados = {
+            title: datos.title,
+            durationSeconds: datos.durationSeconds,
+            lyrics: datos.lyrics,
+            artists: datos.artists,
+            language: datos.language,
+            releaseYear: datos.releaseYear,
+            coverUrl: imageUrl,
+            class: "SONG",
+            creator: "RAMIREZ DIAZ VICTOR FRANCISCO"
+        };
+        console.log(datosFormateados);
+
+        const created = await crearNuevaCancion(datosFormateados);
+    
+        res.status(200).json(created);
+    } catch(error){
+        res.status(500).send({
+            mensaje: 'Error en la creación de una nueva canción',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/
+
+/**
+ *  Editar una canción
+ */
+
+
+export const actualizarCancionController = async (req, res) => {
+    console.log("en controlador - actualizarCancionController");
+    try {
+        const {id} = req.params;
+
+        //console.log(req.body);
+        const datos = req.body;
+
+        // Si se subió una nueva imagen, reemplaza; si no, conserva la actual
+        const imageUrl = req.file 
+            ? `img/songs/${req.file.filename}` 
+            : datos.imageUrl ?? undefined;
+
+        const datosFormateados = {
+            title: datos.title,
+            durationSeconds: datos.durationSeconds,
+            lyrics: datos.lyrics,
+            artists: datos.artists,
+            language: datos.language,
+            releaseYear: datos.releaseYear,
+            coverUrl: imageUrl
+        };
+
+        const updatedObject = await actualizarCancion(id, datosFormateados);
+
+        if(!updatedObject){
+            return res.status(404).send({mensaje: 'Canción no encontrada'});
+        }  
+
+        res.status(200).json(updatedObject);
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al actualizar una canción',
+            error: error.message
+        });
+    }
+}  
+
+/*--------------------------*/
+
+/**
+ *  Eliminar una canción
+ */
+
+export const eliminarCancionPorIDController = async (req, res) => {
+    try {
+        const {id} = req.params;
+        console.log("en controlador - eliminarCancionPorIDController");
+        //console.log(id);
+
+        const deletedObject = await eliminarCancionPorID(id);
+        //console.log("Artista Eliminado", artistaEliminado);
+
+        if(!deletedObject){
+            return res.status(404).send({mensaje: 'Canción no encontrada'});
+        }  
+
+        res.status(200).json({
+            operation: "delete",
+            eliminated: deletedObject,
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al eliminar una canción',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/
+
+/**
+* Album
+*/
+
+
+export const obtenerTodosLosalbumesController = async (req, res) => {
+    console.log("en controlador - obtenerTodosLosalbumesController");
+    try {
+        const albums = await obtenerTodosLosAlbumes();
+        const albumsFormateados = renderizarAlbumes(albums);
+
+        res.status(200).json(albumsFormateados);
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al obtener los albumes',
+            error: error.message
+        });
+    }
+    
+}
+
+
+/** Crear nuevo album */
+
+export const crearNuevaAlbumController = async (req, res) => {
+    console.log("en controlador - crearNuevaAlbumController");
+    try {
+        console.log("body", req.body);
+        const datos = req.body;
+
+        // Si se subió imagen, multer la guarda y agrega req.file
+        const imageUrl = req.file 
+            ? `img/albums/${req.file.filename}` 
+            : datos.imageUrl ?? null;
+
+
+        console.log(datos);
+        const datosFormateados = {
+            title: datos.title,
+            totalTracks: datos.totalTracks,
+            releaseYear: datos.releaseYear,
+            releaseDate: datos.releaseDate,
+            songs: datos.songs,
+            artists: datos.artists,
+            language: datos.language,
+            coverUrl: imageUrl,
+            class: "SONG",
+            creator: "RAMIREZ DIAZ VICTOR FRANCISCO"
+        };
+        console.log(datosFormateados);
+
+        const created = await crearNuevoAlbum(datosFormateados);
+    
+        res.status(200).json(created);
+    } catch(error){
+        res.status(500).send({
+            mensaje: 'Error en la creación de un nuevo album',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/
+
+/**
+ *  Editar una canción
+ */
+
+
+export const actualizarAlbumController = async (req, res) => {
+    console.log("en controlador - actualizarAlbumController");
+    try {
+        const {id} = req.params;
+
+        //console.log(req.body);
+        const datos = req.body;
+
+        // Si se subió una nueva imagen, reemplaza; si no, conserva la actual
+        const imageUrl = req.file 
+            ? `img/albums/${req.file.filename}` 
+            : datos.imageUrl ?? undefined;
+
+        const datosFormateados = {
+            title: datos.title,
+            totalTracks: datos.totalTracks,
+            releaseYear: datos.releaseYear,
+            releaseDate: datos.releaseDate,
+            songs: datos.songs,
+            artists: datos.artists,
+            language: datos.language,
+            coverUrl: imageUrl,
+        };
+
+        const updatedObject = await actualizarAlbum(id, datosFormateados);
+
+        if(!updatedObject){
+            return res.status(404).send({mensaje: 'Album no encontrado'});
+        }  
+
+        res.status(200).json(updatedObject);
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al actualizar un album',
+            error: error.message
+        });
+    }
+}  
+
+/*--------------------------*/
+
+/**
+ *  Eliminar una canción
+ */
+
+export const eliminarAlbumPorIDController = async (req, res) => {
+    try {
+        const {id} = req.params;
+        console.log("en controlador - eliminarAlbumPorIDController");
+        //console.log(id);
+
+        const deletedObject = await eliminarAlbumPorID(id);
+        //console.log("Artista Eliminado", artistaEliminado);
+
+        if(!deletedObject){
+            return res.status(404).send({mensaje: 'Album no encontrada'});
+        }  
+
+        res.status(200).json({
+            operation: "delete",
+            eliminated: deletedObject,
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al eliminar un album',
+            error: error.message
+        });
+    }
+}
+
+/*--------------------------*/

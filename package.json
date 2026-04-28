@@ -4,7 +4,7 @@
   "description": "Trabajo practico final del sprint 5 del modulo 3",
   "main": "app.mjs",
   "scripts": {
-    "dev": "node src/variables_entorno.mjs",
+    "dev": "node src/app.mjs",
     "test": "node src/app.mjs"
   },
   "repository": {

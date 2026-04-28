@@ -8,7 +8,7 @@ import {obtenerTodosLosArtistasController, crearNuevoArtistaController, actualiz
 
 } from '../controllers/musicController.mjs';
 
-import {artistValidation} from '../routes/validationRules.mjs';
+import {artistValidation, songValidation, albumValidation, genreValidation} from '../routes/validationRules.mjs';
 import {handleValidationErrors} from '../routes/errorHandler.mjs';
 
 import createUploadMiddleware from './uploadMiddleware.mjs';
@@ -40,10 +40,10 @@ router.delete('/artists/:id/', eliminarArtistaPorIDController);
 router.get('/genres/', obtenerTodosLosGenerosController);
 
 //crear
-router.post('/genres/agregar', crearNuevoGeneroController);
+router.post('/genres/agregar', genreValidation, handleValidationErrors, crearNuevoGeneroController);
 
 //editar
-router.put('/genres/:id/editar', actualizarGeneroController);
+router.put('/genres/:id/editar', genreValidation, handleValidationErrors, actualizarGeneroController);
 
 //eliminar 
 router.delete('/genres/:id/', eliminarGeneroPorIDController);
@@ -54,10 +54,10 @@ router.delete('/genres/:id/', eliminarGeneroPorIDController);
 router.get('/songs/', obtenerTodasLasCancionesController);
 
 //crear
-router.post('/songs/agregar', crearNuevaCancionController);
+router.post('/songs/agregar', uploadSong, songValidation, handleValidationErrors, crearNuevaCancionController);
 
 //editar
-router.put('/songs/:id/editar', actualizarCancionController);
+router.put('/songs/:id/editar', uploadSong, songValidation, handleValidationErrors, actualizarCancionController);
 
 //eliminar 
 router.delete('/songs/:id/', eliminarCancionPorIDController);
@@ -72,10 +72,10 @@ router.get('/externa/genre', consumirApiExternaGenerosController);
 router.get('/albums/', obtenerTodosLosalbumesController);
 
 //crear
-router.post('/albums/agregar', crearNuevaAlbumController);
+router.post('/albums/agregar', uploadAlbum, albumValidation, handleValidationErrors, crearNuevaAlbumController);
 
 //editar
-router.put('/albums/:id/editar', actualizarAlbumController);
+router.put('/albums/:id/editar', uploadAlbum, albumValidation, handleValidationErrors, actualizarAlbumController);
 
 //eliminar 
 router.delete('/albums/:id/', eliminarAlbumPorIDController);

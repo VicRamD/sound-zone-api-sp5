@@ -12,8 +12,27 @@ import { fileURLToPath } from 'url';
 
 import {renderizarLandingPage, renderizarAbout} from './controllers/musicController.mjs';
 
+import {config} from "dotenv";
+
+import cors from 'cors';
+//const cors = require('cors');
+
+config();
+const corsDomain1=process.env.CORS_DOMAIN1 || undefined;
+
+
+
+
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+
+app.use(cors({
+  origin: [corsDomain1], //'http://localhost:5173' o '*' para permitir cualquier origen ['http://localhost:5173', 'https://tu-dominio-en-produccion.com']
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
 // Middleware para parsear JSON
 app.use(express.json());

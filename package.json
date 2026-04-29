@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/VicRamD/tp_final_sprint5_mod3#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^5.2.1",

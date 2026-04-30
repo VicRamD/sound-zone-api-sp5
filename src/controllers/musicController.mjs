@@ -58,7 +58,7 @@ export const crearNuevoArtistaController = async (req, res) => {
             biography: datos.biography,
             country: datos.country,
             formedYear: datos.formedYear,
-            isActive: datos.isActive,
+            isActive: datos.isActive === "true" ? true : false,
             imageUrl,
             class: "ARTIST",
             creator: "RAMIREZ DIAZ VICTOR FRANCISCO"

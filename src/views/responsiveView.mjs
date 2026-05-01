@@ -27,6 +27,7 @@ export const renderizarArtistas = (artistas) => {
 export const renderizarGenero = (item) =>{
 
     return {
+        id: item._id,
         name: item.name
     };
 }
@@ -41,9 +42,10 @@ export const renderizarGeneros = (items) => {
 
 export const renderizarCancion = (item) =>{
 
-    const {title, durationSeconds, artists, language, releaseYear, coverUrl} = item;
+    const {_id:id, title, durationSeconds, artists, language, releaseYear, coverUrl} = item;
 
     return {
+        id,
         title,
         duration: durationSeconds,
         artists,
@@ -63,9 +65,10 @@ export const renderizarCanciones = (items) => {
 
 export const renderizarAlbum = (item) =>{
 
-    const {title, totalTracks, releaseYear, songs, artists, language, coverUrl} = item;
+    const {_id: id, title, totalTracks, releaseYear, songs, artists, language, coverUrl} = item;
 
     return {
+        id,
         title,
         totalTracks,
         releaseYear,

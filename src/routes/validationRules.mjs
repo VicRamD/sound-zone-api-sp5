@@ -19,14 +19,10 @@ export const artistValidation = [
         .trim(),
 
     body('formedYear')
-        .optional()
-        .isISO8601().withMessage('La fecha debe tener formato válido (ISO 8601)')
-        .custom((value) => {
-            if (new Date(value) > new Date()) {
-                throw new Error('La fecha de formación no puede superar el día actual');
-            }
-            return true;
-        }),
+    .optional()
+    .isInt({ min: 1800, max: new Date().getFullYear() })
+    .withMessage('El año no puede superar el actual o ser menor a 1800')
+    .toInt(),
 
     body('isActive')
         .optional()

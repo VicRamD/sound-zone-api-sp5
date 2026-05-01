@@ -49,6 +49,7 @@ export const crearNuevoArtistaController = async (req, res) => {
         const datos = req.body;
 
         // Si se subió imagen, multer la guarda y agrega req.file
+        alert(req.file);
         const imageUrl = req.file 
             ? `img/artists/${req.file.filename}` 
             : datos.imageUrl ?? null;
@@ -58,7 +59,7 @@ export const crearNuevoArtistaController = async (req, res) => {
             name: datos.name,
             biography: datos.biography,
             country: datos.country,
-            formedYear: datos.formedYear,
+            formedYear: Number(datos.formedYear),
             isActive: datos.isActive === "true" ? true : false,
             imageUrl,
             class: "ARTIST",

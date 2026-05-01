@@ -4,7 +4,7 @@ import {obtenerArtistaPorId, crearNuevoArtista, actualizarArtista, eliminarArtis
     crearNuevaCancion, actualizarCancion, eliminarCancionPorID, obtenerCancionPorId, obtenerTodasLasCanciones,
     crearNuevoAlbum, actualizarAlbum, eliminarAlbumPorID, obtenerAlbumPorId, obtenerTodosLosAlbumes
 } from '../services/musicService.mjs';
-import { renderizarArtistas, renderizarAlbumes, renderizarCanciones, renderizarGeneros} from '../views/responsiveView.mjs';
+import { renderizarArtista, renderizarArtistas, renderizarAlbumes, renderizarCanciones, renderizarGeneros} from '../views/responsiveView.mjs';
 
 
 export const renderizarLandingPage = (req, res) => {
@@ -35,6 +35,22 @@ export const obtenerTodosLosArtistasController = async (req, res) => {
     
 }
 
+/*const obtenerArtistaPorIdController = async (req, res) => {
+    console.log("en controlador - obtenerArtistaPorIdController");
+    try {
+        const {id} = req.params;        
+        const artista = await obtenerArtistaPorId(id);
+        const artistaFormateado = renderizarArtista(artista);
+
+        return(artistaFormateado);
+    } catch (error) {
+        res.status(500).send({
+            mensaje: 'Error al obtener los artista',
+            error: error.message
+        });
+    }
+    
+} */
 
 /**
  *  Crear nuevo artista
@@ -94,10 +110,13 @@ export const actualizarArtistaController = async (req, res) => {
         //console.log(req.body);
         const datos = req.body;
 
+        const artistaActual = await obtenerArtistaPorId(id);
+        const artistaActualFormateado = renderizarArtista(artistaActual);
+
         // Si se subió una nueva imagen, reemplaza; si no, conserva la actual
         const imageUrl = req.file 
             ? `img/artists/${req.file.filename}` 
-            : datos.imageUrl ?? undefined;
+            : artistaActual.imageUrl ?? undefined;
 
         const datosArtista = {
             name: datos.name,

@@ -23,20 +23,6 @@ class MusicRepository extends IRepository {
         return await Artist.find({class: "ARTIST"}); 
     }
 
-    /*
-    async obtenerRecetasPorRegion(region){
-        console.log("En repository - obtenerRecetasPorRegion");
-        //console.log(region);
-        //return await Receta.find({clase: "RECETA", regiones: region}); 
-        let recetasRecuperadas;
-         await Receta.find({clase: "RECETA", regiones: region})
-        .limit(1).then(result => {
-            console.log(result);
-            recetasRecuperadas = result;
-
-        }).catch(err => console.error(err));
-        return recetasRecuperadas;
-    } */
 
     async registrarArtistasAPI(listaDeArtistas){
         console.log("En repository - registrarArtistasAPI");

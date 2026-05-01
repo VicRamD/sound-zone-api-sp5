@@ -11,6 +11,7 @@ export const renderizarArtista = (artista) =>{
         name: artista.name,
         country: artista.country,
         formedYear: artista.formedYear,
+        biography: artista.biography,
         isActive: artista.isActive,
         image: artista.imageUrl,
     };

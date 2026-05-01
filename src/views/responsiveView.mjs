@@ -9,7 +9,7 @@ export const renderizarArtista = (artista) =>{
     return {
         id: artista._id,
         name: artista.name,
-        country: artista.imagen,
+        country: artista.country,
         formedYear: artista.formedYear,
         isActive: artista.isActive,
         image: artista.imageUrl,

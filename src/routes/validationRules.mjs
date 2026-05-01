@@ -32,9 +32,6 @@ export const artistValidation = [
         .optional()
         .isBoolean().withMessage('isActive debe ser true o false'),
 
-    body('imageUrl')
-        .optional()
-        .isURL().withMessage('La URL de la imagen no es válida'),
 ];
 
 export const songValidation = [
@@ -75,10 +72,6 @@ export const songValidation = [
             }
             return true;
         }),
-
-    body('coverUrl')
-        .optional()
-        .isURL().withMessage('La URL de la portada no es válida'),
 
     body('class')
         .optional()
@@ -134,10 +127,6 @@ export const albumValidation = [
         .optional()
         .isLength({ max: 30 }).withMessage('El lenguaje no puede exceder 30 caracteres')
         .trim(),
-
-    body('coverUrl')
-        .optional()
-        .isURL().withMessage('La URL de la portada no es válida'),
 
     body('class')
         .optional()

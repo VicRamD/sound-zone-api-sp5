@@ -3,10 +3,7 @@ import {body} from 'express-validator';
 //Validaciones
 export const artistValidation = [
     body('name')
-        .notEmpty().withMessage('El nombre es obligatorio')
-        .isLength({ min: 3 }).withMessage('El nombre debe tener al menos 3 caracteres')
-        .isLength({ max: 60 }).withMessage('El nombre no puede exceder 60 caracteres')
-        .trim(),
+        .trim().notEmpty().withMessage('El nombre es obligatorio').isLength({ min: 3, max: 60 }).withMessage('El nombre debe tener entre 3 y 60 caracteres'),
 
     body('biography')
         .optional()
@@ -19,14 +16,10 @@ export const artistValidation = [
         .trim(),
 
     body('formedYear')
-    .optional()
-    .isInt({ min: 1800, max: new Date().getFullYear() })
-    .withMessage('El año no puede superar el actual o ser menor a 1800')
-    .toInt(),
-
-    body('isActive')
         .optional()
-        .isBoolean().withMessage('isActive debe ser true o false'),
+        .isInt({ min: 1800, max: new Date().getFullYear() })
+        .withMessage('El año no puede superar el actual o ser menor a 1800')
+        .toInt(),
 
 ];
 

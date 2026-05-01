@@ -49,6 +49,7 @@ export const crearNuevoArtistaController = async (req, res) => {
         const datos = req.body;
 
         // Si se subió imagen, multer la guarda y agrega req.file
+        console.log("File:");
         console.log(req.file);
         const imageUrl = req.file 
             ? `img/artists/${req.file.filename}` 

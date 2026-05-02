@@ -1,6 +1,7 @@
 import express from 'express';
 
-import {obtenerTodosLosArtistasController, crearNuevoArtistaController, actualizarArtistaController, eliminarArtistaPorIDController,
+import {obtenerTodosLosArtistasController, obtenerArtistaPorIdController, crearNuevoArtistaController, 
+    actualizarArtistaController, eliminarArtistaPorIDController,
     consumirApiExternaGenerosController, obtenerTodosLosGenerosController, crearNuevoGeneroController, 
     actualizarGeneroController, eliminarGeneroPorIDController,
     obtenerTodosLosalbumesController, crearNuevaAlbumController, actualizarAlbumController, eliminarAlbumPorIDController,
@@ -24,7 +25,7 @@ const router = express.Router();
  * artist
  */
 router.get('/artists/', obtenerTodosLosArtistasController);
-
+router.get('/artists/:id', obtenerArtistaPorIdController);
 //crear artista
 router.post('/artists/agregar', uploadArtist, artistValidation, handleValidationErrors, crearNuevoArtistaController);
 

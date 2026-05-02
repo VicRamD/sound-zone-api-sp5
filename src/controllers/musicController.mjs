@@ -35,14 +35,14 @@ export const obtenerTodosLosArtistasController = async (req, res) => {
     
 }
 
-/*const obtenerArtistaPorIdController = async (req, res) => {
+export const obtenerArtistaPorIdController = async (req, res) => {
     console.log("en controlador - obtenerArtistaPorIdController");
     try {
         const {id} = req.params;        
         const artista = await obtenerArtistaPorId(id);
         const artistaFormateado = renderizarArtista(artista);
 
-        return(artistaFormateado);
+        res.status(200).json(artistaFormateado);
     } catch (error) {
         res.status(500).send({
             mensaje: 'Error al obtener los artista',
@@ -50,7 +50,7 @@ export const obtenerTodosLosArtistasController = async (req, res) => {
         });
     }
     
-} */
+} 
 
 /**
  *  Crear nuevo artista
@@ -106,12 +106,16 @@ export const actualizarArtistaController = async (req, res) => {
     console.log("en controlador - actualizarArtistaController");
     try {
         const {id} = req.params;
+        console.log(id);
 
         //console.log(req.body);
         const datos = req.body;
 
         const artistaActual = await obtenerArtistaPorId(id);
         const artistaActualFormateado = renderizarArtista(artistaActual);
+
+        console.log("ARTISTA ACTUAL");
+        console.log(artistaActual);
 
         // Si se subió una nueva imagen, reemplaza; si no, conserva la actual
         const imageUrl = req.file 
@@ -132,12 +136,13 @@ export const actualizarArtistaController = async (req, res) => {
 
         const artistaActualizado = await actualizarArtista(id, datosArtista);
         console.log("Actualizar artista", artistaActualizado);
+        const artistaActualizadoFormateado = renderizarArtista(artistaActualizado);
 
         if(!artistaActualizado){
             return res.status(404).send({mensaje: 'Artista no encontrado'});
         }  
 
-        res.status(200).json(artistaActualizado);
+        res.status(200).json(artistaActualFormateado);
 
     } catch (error) {
         res.status(500).send({

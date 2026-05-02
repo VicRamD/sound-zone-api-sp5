@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use(cors({
-  origin: [corsDomain1, 'https://sound-zone-diplomatura.netlify.app/'], //'http://localhost:5173' o '*' para permitir cualquier origen ['http://localhost:5173', 'https://tu-dominio-en-produccion.com']
+  origin: [corsDomain1, 'https://sound-zone-diplomatura.netlify.app'], //'http://localhost:5173' o '*' para permitir cualquier origen ['http://localhost:5173', 'https://tu-dominio-en-produccion.com']
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 

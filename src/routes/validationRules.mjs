@@ -125,8 +125,7 @@ export const albumValidation = [
 export const genreValidation = [
     body('name')
         .notEmpty().withMessage('El nombre es obligatorio')
-        .isLength({ min: 3 }).withMessage('El nombre debe tener al menos 3 caracteres')
-        .isLength({ max: 25 }).withMessage('El nombre no puede exceder 25 caracteres')
+        .isLength({ min: 3, max:25 }).withMessage('El nombre debe tener entre 3 y 25 caracteres')
         .trim(),
 
     body('class')

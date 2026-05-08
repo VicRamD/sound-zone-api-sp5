@@ -254,7 +254,7 @@ export const crearNuevoGeneroController = async (req, res) => {
         res.status(200).json(created);
     } catch(error){
         res.status(500).send({
-            mensaje: 'Error en la creación de un nuevo genero',
+            mensaje: 'Error en la creación de un nuevo género',
             error: error.message
         });
     }

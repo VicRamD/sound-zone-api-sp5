@@ -16,6 +16,6 @@ const artistSchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now}
 });
 
-//Modelo pais                   Nombre   esquema    colección
+//Modelo artis                   Nombre   esquema    colección
 const artist = mongoose.model('Artist', artistSchema, 'Grupo-20');
 export default artist;

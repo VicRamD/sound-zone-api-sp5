@@ -7,6 +7,6 @@ const genreSchema = new mongoose.Schema({
     createdAt: {type: Date, default: Date.now}
 });
 
-//Modelo pais                Nombre   esquema    colección
+//Modelo genre                Nombre   esquema    colección
 const genre = mongoose.model('Genre', genreSchema, 'Grupo-20');
 export default genre;

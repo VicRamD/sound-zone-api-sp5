@@ -15,6 +15,8 @@ import {handleValidationErrors} from '../routes/errorHandler.mjs';
 import createUploadMiddleware from './uploadMiddleware.mjs';
 import { obtenerTodosLosAlbumes } from '../services/musicService.mjs';
 
+import { authtenticateToken } from './authMiddleware.mjs';
+
 const uploadArtist = createUploadMiddleware('artists');
 const uploadSong   = createUploadMiddleware('songs');
 const uploadAlbum  = createUploadMiddleware('albums');

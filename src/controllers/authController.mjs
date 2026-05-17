@@ -25,3 +25,15 @@ export const inicioDeSesionUsuario = async (req, res) => {
         res.status(400).json({error: err.message});
     }
 } 
+
+export const crearPermisos = async (req, res) => {
+    console.log("en controlador - crearPermisos");
+    try {
+        const {email, password} = req.body;
+        const result = await AuthService.login(email, password);
+        res.json(result);
+    } catch (err) {
+        console.log("Error en login:", err);
+        res.status(400).json({error: err.message});
+    }
+} 

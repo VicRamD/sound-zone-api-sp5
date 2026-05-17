@@ -29,13 +29,13 @@ const router = express.Router();
 router.get('/artists/', obtenerTodosLosArtistasController);
 router.get('/artists/:id', obtenerArtistaPorIdController);
 //crear artista
-router.post('/artists/agregar', uploadArtist, artistValidation, handleValidationErrors, crearNuevoArtistaController);
+router.post('/artists/agregar', authtenticateToken, uploadArtist, artistValidation, handleValidationErrors, crearNuevoArtistaController);
 
 //editar artista
-router.put('/artists/:id/editar', uploadArtist, artistValidation, handleValidationErrors, actualizarArtistaController);
+router.put('/artists/:id/editar', authtenticateToken, uploadArtist, artistValidation, handleValidationErrors, actualizarArtistaController);
 
 //eliminar artista
-router.delete('/artists/:id/', eliminarArtistaPorIDController);
+router.delete('/artists/:id/', authtenticateToken, eliminarArtistaPorIDController);
 
 /**
  * genres
@@ -43,13 +43,13 @@ router.delete('/artists/:id/', eliminarArtistaPorIDController);
 router.get('/genres/', obtenerTodosLosGenerosController);
 
 //crear
-router.post('/genres/agregar', genreValidation, handleValidationErrors, crearNuevoGeneroController);
+router.post('/genres/agregar', authtenticateToken, genreValidation, handleValidationErrors, crearNuevoGeneroController);
 
 //editar
-router.put('/genres/:id/editar', genreValidation, handleValidationErrors, actualizarGeneroController);
+router.put('/genres/:id/editar', authtenticateToken, genreValidation, handleValidationErrors, actualizarGeneroController);
 
 //eliminar 
-router.delete('/genres/:id/', eliminarGeneroPorIDController);
+router.delete('/genres/:id/', authtenticateToken, eliminarGeneroPorIDController);
 
 /**
  * songs
@@ -57,13 +57,13 @@ router.delete('/genres/:id/', eliminarGeneroPorIDController);
 router.get('/songs/', obtenerTodasLasCancionesController);
 
 //crear
-router.post('/songs/agregar', uploadSong, songValidation, handleValidationErrors, crearNuevaCancionController);
+router.post('/songs/agregar', authtenticateToken, uploadSong, songValidation, handleValidationErrors, crearNuevaCancionController);
 
 //editar
-router.put('/songs/:id/editar', uploadSong, songValidation, handleValidationErrors, actualizarCancionController);
+router.put('/songs/:id/editar', authtenticateToken, uploadSong, songValidation, handleValidationErrors, actualizarCancionController);
 
 //eliminar 
-router.delete('/songs/:id/', eliminarCancionPorIDController);
+router.delete('/songs/:id/', authtenticateToken, eliminarCancionPorIDController);
 
 //Consumir APIs
 router.get('/externa/genre', consumirApiExternaGenerosController);
@@ -75,13 +75,13 @@ router.get('/externa/genre', consumirApiExternaGenerosController);
 router.get('/albums/', obtenerTodosLosalbumesController);
 
 //crear
-router.post('/albums/agregar', uploadAlbum, albumValidation, handleValidationErrors, crearNuevaAlbumController);
+router.post('/albums/agregar', authtenticateToken, uploadAlbum, albumValidation, handleValidationErrors, crearNuevaAlbumController);
 
 //editar
-router.put('/albums/:id/editar', uploadAlbum, albumValidation, handleValidationErrors, actualizarAlbumController);
+router.put('/albums/:id/editar', authtenticateToken, uploadAlbum, albumValidation, handleValidationErrors, actualizarAlbumController);
 
 //eliminar 
-router.delete('/albums/:id/', eliminarAlbumPorIDController);
+router.delete('/albums/:id/', authtenticateToken, eliminarAlbumPorIDController);
 
 
 export default router;

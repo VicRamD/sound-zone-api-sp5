@@ -3,6 +3,7 @@ import {connectDB} from './config/dbConfig.mjs';
 import methodOverride from 'method-override';
 
 import musicRoutes from './routes/musicRoutes.mjs';
+import authRoutes from './routes/authRoutes.mjs';
 
 import expressLayouts from 'express-ejs-layouts';
 
@@ -74,7 +75,10 @@ app.get('/', renderizarLandingPage);
 //Acerca de
 app.get('/acerca', renderizarAbout);
 
-//configuración de rutas
+//configuración de rutas registro e inicio de sesión
+app.use('/auth', authRoutes);
+
+//configuración de rutas api
 app.use('/api', musicRoutes);
 
 //Iniciar el servidor

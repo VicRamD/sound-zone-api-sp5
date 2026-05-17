@@ -7,6 +7,7 @@ class AuthService {
 
     //Método para registrar un nuevo usuario
     async register(userData) {
+        console.log("en service - register");
         //verificando si ya existe un usuario con el mail o username
         const existingUser = await User.findOne({
             $or: [
@@ -40,6 +41,31 @@ class AuthService {
         //generamos un token jwt para el usuario
         const token = this.generateToken(user);
         return {user: userResponse, token}
+    }
+
+
+    //método para iniciar sesión
+    async login(email, password){
+        console.log("en service - login");
+        //Buscamos el usuario por email
+        const user = await User.findOne({email, class: "USER"});
+        if(!user){
+           throw new Error('Usuario no encontrado');
+        }
+
+        //verificamos si la contraseña es correcta
+        const invalidPassword = await bcrypt.compare(password, user.password);
+        if(!invalidPassword){
+            throw new Error('Contraseña incorrecta');
+        }
+
+        //convertimos el usuario a objeto plano y prescindimos de la contraseña
+        const userResponse = user.toObject();
+        delete userResponse.password;
+
+        //generamos un nuevo token y retornamos la respuesta
+        const token = this.generateToken(user);
+        return {user: userResponse, token};
     }
 
     //método para generar tokens

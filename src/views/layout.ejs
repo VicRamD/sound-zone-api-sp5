@@ -8,18 +8,20 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <%- include('partials/navbar') %>
-    <!-- Header -->
-    <%- include('partials/header') %>
-    <!-- Contenido dinámico -->
-     
-    <main>
-        <%- body %>
-    </main>
+    <div id="contenedorEstructura">
+        <!-- Navbar -->
+        <%- include('partials/navbar') %>
+        <!-- Header -->
+        <%- include('partials/header') %>
+        <!-- Contenido dinámico -->
+        
+        <main class="flex">
+            <%- body %>
+        </main>
 
-    <!-- Footer -->
-    <%- include('partials/footer') %>
-    <!-- <script type="module" src="/js/chatbot.mjs"></script> -->
+        <!-- Footer -->
+        <%- include('partials/footer') %>
+    </div>
+    
 </body>
 </html>

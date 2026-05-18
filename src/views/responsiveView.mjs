@@ -83,3 +83,20 @@ export const renderizarAlbum = (item) =>{
 export const renderizarAlbumes = (items) => {
     return items.map(item => renderizarAlbum(item));
 }
+
+/**
+ * permission
+ */
+
+export const renderizarPermiso = (item) =>{
+
+    return {
+        id: item._id,
+        name: item.name,
+        description: item.description
+    };
+}
+
+export const renderizarPermisos = (items) => {
+    return items.map(item => renderizarPermiso(item));
+}

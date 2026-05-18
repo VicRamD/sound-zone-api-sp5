@@ -110,7 +110,11 @@ export const rolesSeed = [
     name: "user",
     description: "Privilegios generales",
     permissions: [
-
+      "6a0a66e0dae12f397c9ef982", "6a0a66e0dae12f397c9ef981", "6a0a66e0dae12f397c9ef983", "6a0a66e0dae12f397c9ef984",
+      "6a0a66e0dae12f397c9ef98a", "6a0a66e0dae12f397c9ef989", "6a0a66e0dae12f397c9ef98b", "6a0a66e0dae12f397c9ef98c",
+      "6a0a66e0dae12f397c9ef986", "6a0a66e0dae12f397c9ef985", "6a0a66e0dae12f397c9ef987", "6a0a66e0dae12f397c9ef988",
+      "6a0a66e0dae12f397c9ef98e", "6a0a66e0dae12f397c9ef98d", "6a0a66e0dae12f397c9ef98f", "6a0a66e0dae12f397c9ef990",
+      "6a0a66e0dae12f397c9ef992", "6a0a66e0dae12f397c9ef991", "6a0a66e0dae12f397c9ef993"
     ],
     class: "ROLE"
   },

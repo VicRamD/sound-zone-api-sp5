@@ -1,4 +1,5 @@
 import User from "../models/User.mjs"
+import Permission from "../models/Permission.mjs";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
@@ -82,6 +83,20 @@ class AuthService {
             {expiresIn: '24h'}
         )
     }
+
+    //permisos
+    async obtenerTodosLosPermisos(){
+            console.log("En service - obtenerTodosLosPermisos");
+            return await Permission.find({class: "PERMISSION"}); 
+    }
+
+    async registrarListaPermisos(listaDePermisos){
+        console.log("En service - registrarListaPermisos");
+        const permisos = await Permission.create(listaDePermisos);
+        return permisos;
+    }
+
+
 }
 
 export default new AuthService();

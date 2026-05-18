@@ -1,5 +1,7 @@
 import AuthService from "../services/authService.mjs";
 
+import { permissionsSeed } from "../models/static/staticData.mjs";
+
 export const registrarUsuario = async (req, res) => {
     console.log("en controlador - registrarUsuario");
     try {
@@ -29,11 +31,10 @@ export const inicioDeSesionUsuario = async (req, res) => {
 export const crearPermisos = async (req, res) => {
     console.log("en controlador - crearPermisos");
     try {
-        const {email, password} = req.body;
-        const result = await AuthService.login(email, password);
+        const result = await AuthService.registrarListaPermisos(permissionsSeed);
         res.json(result);
     } catch (err) {
-        console.log("Error en login:", err);
+        console.log("Error al crear permisos:", err);
         res.status(400).json({error: err.message});
     }
 } 

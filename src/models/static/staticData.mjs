@@ -102,8 +102,19 @@ export const permissionsSeed = [
     name: "playlist:delete",
     description: "Permite eliminar una playlist",
     class: "PERMISSION"
-  }
-];
+  },
+  { name: "permission:create", description: "Permite crear permisos", class: "PERMISSION" },
+  { name: "permission:read", description: "Permite ver permisos", class: "PERMISSION" },
+  { name: "permission:update", description: "Permite actualizar permisos", class: "PERMISSION" },
+  { name: "permission:delete", description: "Permite eliminar permisos", class: "PERMISSION" },
+  { name: "permission:add", description: "Permite agregar permisos al sistema", class: "PERMISSION" },
+  { name: "permission:remove", description: "Permite quitar permisos del sistema", class: "PERMISSION" },
+  { name: "role:create", description: "Permite crear roles", class: "PERMISSION" },
+  { name: "role:read", description: "Permite ver roles", class: "PERMISSION" },
+  { name: "role:update", description: "Permite actualizar roles", class: "PERMISSION" },
+  { name: "role:delete", description: "Permite eliminar roles", class: "PERMISSION" }
+]; 
+
 
 export const rolesSeed = [
   {
@@ -126,7 +137,10 @@ export const rolesSeed = [
       "6a0a66e0dae12f397c9ef98a", "6a0a66e0dae12f397c9ef989", "6a0a66e0dae12f397c9ef98b", "6a0a66e0dae12f397c9ef98c",
       "6a0a66e0dae12f397c9ef986", "6a0a66e0dae12f397c9ef985", "6a0a66e0dae12f397c9ef987", "6a0a66e0dae12f397c9ef988",
       "6a0a66e0dae12f397c9ef98e", "6a0a66e0dae12f397c9ef98d", "6a0a66e0dae12f397c9ef98f", "6a0a66e0dae12f397c9ef990",
-      "6a0a66e0dae12f397c9ef992", "6a0a66e0dae12f397c9ef991", "6a0a66e0dae12f397c9ef993", "6a0a66e0dae12f397c9ef994"
+      "6a0a66e0dae12f397c9ef992", "6a0a66e0dae12f397c9ef991", "6a0a66e0dae12f397c9ef993", "6a0a66e0dae12f397c9ef994",
+      "6a0b1c302ea6d3ce31925393", "6a0b1c302ea6d3ce31925392", "6a0b1c302ea6d3ce31925394", "6a0b1c302ea6d3ce31925395",
+      "6a0b1c302ea6d3ce31925396", "6a0b1c302ea6d3ce31925397",
+      "6a0b1c302ea6d3ce31925399", "6a0b1c302ea6d3ce31925398", "6a0b1c302ea6d3ce3192539a", "6a0b1c302ea6d3ce3192539b"
     ],
     class: "ROLE"
   }

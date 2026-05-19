@@ -16,6 +16,7 @@ import createUploadMiddleware from './uploadMiddleware.mjs';
 import { obtenerTodosLosAlbumes } from '../services/musicService.mjs';
 
 import { authtenticateToken } from './authMiddleware.mjs';
+import { hasPermission } from './authorizationMiddleware.mjs';
 
 const uploadArtist = createUploadMiddleware('artists');
 const uploadSong   = createUploadMiddleware('songs');
@@ -23,19 +24,22 @@ const uploadAlbum  = createUploadMiddleware('albums');
 
 const router = express.Router();
 
+
+//Primero se verifica si si el usuario tiene acceso y luego si tiene permisos
+
 /**
  * artist
  */
 router.get('/artists/', obtenerTodosLosArtistasController);
 router.get('/artists/:id', obtenerArtistaPorIdController);
 //crear artista
-router.post('/artists/agregar', authtenticateToken, uploadArtist, artistValidation, handleValidationErrors, crearNuevoArtistaController);
+router.post('/artists/agregar', authtenticateToken, hasPermission('artist:create'), uploadArtist, artistValidation, handleValidationErrors, crearNuevoArtistaController);
 
 //editar artista
-router.put('/artists/:id/editar', authtenticateToken, uploadArtist, artistValidation, handleValidationErrors, actualizarArtistaController);
+router.put('/artists/:id/editar', authtenticateToken, hasPermission('artist:update'), uploadArtist, artistValidation, handleValidationErrors, actualizarArtistaController);
 
 //eliminar artista
-router.delete('/artists/:id/', authtenticateToken, eliminarArtistaPorIDController);
+router.delete('/artists/:id/', hasPermission('artist:delete'), authtenticateToken, eliminarArtistaPorIDController);
 
 /**
  * genres
@@ -43,13 +47,13 @@ router.delete('/artists/:id/', authtenticateToken, eliminarArtistaPorIDControlle
 router.get('/genres/', obtenerTodosLosGenerosController);
 
 //crear
-router.post('/genres/agregar', authtenticateToken, genreValidation, handleValidationErrors, crearNuevoGeneroController);
+router.post('/genres/agregar', authtenticateToken, hasPermission('genre:create'), genreValidation, handleValidationErrors, crearNuevoGeneroController);
 
 //editar
-router.put('/genres/:id/editar', authtenticateToken, genreValidation, handleValidationErrors, actualizarGeneroController);
+router.put('/genres/:id/editar', authtenticateToken, hasPermission('genre:update'), genreValidation, handleValidationErrors, actualizarGeneroController);
 
 //eliminar 
-router.delete('/genres/:id/', authtenticateToken, eliminarGeneroPorIDController);
+router.delete('/genres/:id/', authtenticateToken, hasPermission('genre:delete'), eliminarGeneroPorIDController);
 
 /**
  * songs
@@ -57,13 +61,13 @@ router.delete('/genres/:id/', authtenticateToken, eliminarGeneroPorIDController)
 router.get('/songs/', obtenerTodasLasCancionesController);
 
 //crear
-router.post('/songs/agregar', authtenticateToken, uploadSong, songValidation, handleValidationErrors, crearNuevaCancionController);
+router.post('/songs/agregar', authtenticateToken, hasPermission('song:create'), uploadSong, songValidation, handleValidationErrors, crearNuevaCancionController);
 
 //editar
-router.put('/songs/:id/editar', authtenticateToken, uploadSong, songValidation, handleValidationErrors, actualizarCancionController);
+router.put('/songs/:id/editar', authtenticateToken, hasPermission('song:update'), uploadSong, songValidation, handleValidationErrors, actualizarCancionController);
 
 //eliminar 
-router.delete('/songs/:id/', authtenticateToken, eliminarCancionPorIDController);
+router.delete('/songs/:id/', authtenticateToken, hasPermission('song:delete'), eliminarCancionPorIDController);
 
 //Consumir APIs
 router.get('/externa/genre', consumirApiExternaGenerosController);
@@ -75,13 +79,13 @@ router.get('/externa/genre', consumirApiExternaGenerosController);
 router.get('/albums/', obtenerTodosLosalbumesController);
 
 //crear
-router.post('/albums/agregar', authtenticateToken, uploadAlbum, albumValidation, handleValidationErrors, crearNuevaAlbumController);
+router.post('/albums/agregar', authtenticateToken, hasPermission('album:create'), uploadAlbum, albumValidation, handleValidationErrors, crearNuevaAlbumController);
 
 //editar
-router.put('/albums/:id/editar', authtenticateToken, uploadAlbum, albumValidation, handleValidationErrors, actualizarAlbumController);
+router.put('/albums/:id/editar', authtenticateToken, hasPermission('album:update'), uploadAlbum, albumValidation, handleValidationErrors, actualizarAlbumController);
 
 //eliminar 
-router.delete('/albums/:id/', authtenticateToken, eliminarAlbumPorIDController);
+router.delete('/albums/:id/', authtenticateToken, hasPermission('album:delete'), eliminarAlbumPorIDController);
 
 
 export default router;

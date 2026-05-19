@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.mjs";
 
 //Middleware para verificar el token de autenticación
-export const authtenticateToken = (req, res, next) => {
+export const authtenticateToken = async (req, res, next) => {
     //obtenemos el header de autorización
     const authHeader = req.headers['authorization'];
     //extraemos el token del header (formato: "bearer <token>")
@@ -16,7 +17,12 @@ export const authtenticateToken = (req, res, next) => {
         //verificamos el token usando la clave secreta
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         //Guardamos la información del usuario decodificada en el objeto request
-        req.user = decoded;
+        //req.user = decoded;
+        req.user = await User.findById(decoded.id).populate({
+                path: 'role',
+                select: 'name',
+                populate: { path: 'permissions', select: 'name' }
+        });
         next();
     } catch (error) {
         //Si el token es invalido devolvemos error 403 (prohibido)

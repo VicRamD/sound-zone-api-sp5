@@ -100,3 +100,21 @@ export const renderizarPermiso = (item) =>{
 export const renderizarPermisos = (items) => {
     return items.map(item => renderizarPermiso(item));
 }
+
+/**
+ * roles
+ */
+
+export const renderizarRol = (item) =>{
+
+    return {
+        id: item._id,
+        name: item.name,
+        description: item.description,
+        permissions: item.permissions
+    };
+}
+
+export const renderizarRoles = (items) => {
+    return items.map(item => renderizarRol(item));
+}

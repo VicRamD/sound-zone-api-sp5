@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     email : {type: String, required: true, unique: true},
     password : {type: String, required: true},
     class: String,
+    role : {type: mongoose.Schema.Types.ObjectId, ref:'Role' },
     createdAt: {type: Date, default: Date.now}
 }, {timestamps: true});
 

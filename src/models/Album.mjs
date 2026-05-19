@@ -11,6 +11,7 @@ const albumSchema = new mongoose.Schema({
     language: {type: String, maxlength: [30, 'El lenguaje no puede exceder 30 caracteres']},
     coverUrl: String,
     class: String,
+    creator : {type: mongoose.Schema.Types.ObjectId, ref:'User' },
     createdAt: {type: Date, default: Date.now}
 });
 

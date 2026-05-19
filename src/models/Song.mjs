@@ -10,6 +10,7 @@ const songSchema = new mongoose.Schema({
     releaseYear: {type: Date},
     coverUrl: String,
     class: String,
+    creator : {type: mongoose.Schema.Types.ObjectId, ref:'User' },
     createdAt: {type: Date, default: Date.now}
 });
 

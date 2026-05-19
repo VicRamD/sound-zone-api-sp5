@@ -105,6 +105,8 @@ export const crearNuevoArtistaController = async (req, res) => {
 export const actualizarArtistaController = async (req, res) => {
     console.log("en controlador - actualizarArtistaController");
     try {
+        //usuario para verificar si quien modifica es el creador original
+        const currentUser = req.user;
         const {id} = req.params;
         console.log(id);
 
@@ -112,7 +114,10 @@ export const actualizarArtistaController = async (req, res) => {
         const datos = req.body;
 
         const artistaActual = await obtenerArtistaPorId(id);
-        const artistaActualFormateado = renderizarArtista(artistaActual);
+        if(req.user.id !== artistaActual.creator.toString()){
+            return res.status(403).json({message: 'No autorizado'});
+        }
+        //const artistaActualFormateado = renderizarArtista(artistaActual);
 
         console.log("ARTISTA ACTUAL");
         console.log(artistaActual);
@@ -132,17 +137,17 @@ export const actualizarArtistaController = async (req, res) => {
         };
 
 
-        console.log(datosArtista);
+        //console.log(datosArtista);
 
         const artistaActualizado = await actualizarArtista(id, datosArtista);
-        console.log("Actualizar artista", artistaActualizado);
-        const artistaActualizadoFormateado = renderizarArtista(artistaActualizado);
-
         if(!artistaActualizado){
             return res.status(404).send({mensaje: 'Artista no encontrado'});
-        }  
+        }
+        console.log("Actualizar artista", artistaActualizado);
 
-        res.status(200).json(artistaActualFormateado);
+        const artistaActualizadoFormateado = renderizarArtista(artistaActualizado);
+
+        res.status(200).json(artistaActualizadoFormateado);
 
     } catch (error) {
         res.status(500).send({

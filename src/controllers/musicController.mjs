@@ -165,16 +165,27 @@ export const actualizarArtistaController = async (req, res) => {
 
 export const eliminarArtistaPorIDController = async (req, res) => {
     try {
+        //usuario para verificar si quien elimina es el creador original
+        const currentUser = req.user;
+
         const {id} = req.params;
         console.log("en controlador - eliminarArtistaPorIDController");
         //console.log(id);
 
+        // Para eliminar busca primero el artista para verificar el creador
+        const artista = await obtenerArtistaPorId(id);
+
+        if (!artista) {
+            return res.status(404).send({ mensaje: 'Artista no encontrado' });
+        }
+
+        // Se verifica que quien elimina es el creador original
+        if (req.user.id !== artista.creator.toString()) {
+            return res.status(403).json({ message: 'No autorizado' });
+        }
+
         const artistaEliminado = await eliminarArtistaPorID(id);
         console.log("Artista Eliminado", artistaEliminado);
-
-        if(!artistaEliminado){
-            return res.status(404).send({mensaje: 'Artista no encontrado'});
-        }  
 
         res.status(200).json({
             operation: "delete",
